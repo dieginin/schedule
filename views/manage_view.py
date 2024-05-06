@@ -1,6 +1,6 @@
-from flet import Divider, MainAxisAlignment, Page, Row, View
+from flet import Divider, Page, View
 
-from components import CenteredColumn, HomeBtn, IconBtn, Subtitle, Title
+from components import CenteredColumn, CenteredRow, HomeBtn, IconBtn, Section, Subtitle
 
 
 class ManageView(View):
@@ -11,28 +11,24 @@ class ManageView(View):
         self.route = "/manage"
 
         self.floating_action_button = HomeBtn(visible=False)
+        self.__view_controls()
         self.controls = [self.__store(), self.__members()]
 
-    def __title_section(self, value: str | None = None) -> tuple:
-        return Title(value), Divider()
+    def __view_controls(self):
+        self.name = Subtitle(f"{self.page.client_storage.get('store_initials')}")
 
     def __store(self) -> CenteredColumn:
-        return CenteredColumn(
-            [
-                *self.__title_section("Store"),
-                Row(
-                    [
-                        Subtitle(f"{self.page.client_storage.get('store_initials')}"),
-                        IconBtn("edit", tooltip="Edit name"),
-                    ],
-                    alignment=MainAxisAlignment.CENTER,
-                ),
-            ]
+        return Section(
+            "Store",
+            CenteredRow(
+                [
+                    self.name,
+                    IconBtn(
+                        "edit", tooltip="Edit name"
+                    ),  # TODO crear popup/dialog para cambiar nombre de tienda
+                ]
+            ),
         )
 
     def __members(self) -> CenteredColumn:
-        return CenteredColumn(
-            [
-                *self.__title_section("Members"),
-            ]
-        )
+        return Section("Members")  # TODO members section
