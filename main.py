@@ -1,4 +1,4 @@
-from flet import Page, app
+from flet import Page, Theme, app
 
 from services import Router
 
@@ -12,6 +12,7 @@ class Main:
 
     def __init_config__(self, page):
         page.title = "SBM Schedule"
+        page.theme = Theme(color_scheme_seed="indigo")
         Router(page)
 
     def __init_window__(self, page):
