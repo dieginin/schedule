@@ -2,12 +2,7 @@ from flet import ButtonStyle, ElevatedButton, FloatingActionButton, IconButton
 
 
 class __ElevatedButton(ElevatedButton):
-    def __init__(
-        self,
-        text: str | None = None,
-        icon: str | None = None,
-        on_click=None,
-    ):
+    def __init__(self, text: str, icon: str | None = None, on_click=None):
         super().__init__()
         self.text = text
         self.icon = icon
@@ -15,7 +10,7 @@ class __ElevatedButton(ElevatedButton):
 
 
 class PrimaryBtn(__ElevatedButton):
-    def __init__(self, text: str | None = None, icon: str | None = None, on_click=None):
+    def __init__(self, text: str, icon: str | None = None, on_click=None):
         super().__init__(text, icon, on_click)
         self.style = ButtonStyle(
             color="primary",
@@ -25,7 +20,7 @@ class PrimaryBtn(__ElevatedButton):
 
 
 class SecondaryBtn(__ElevatedButton):
-    def __init__(self, text: str | None = None, icon: str | None = None, on_click=None):
+    def __init__(self, text: str, icon: str | None = None, on_click=None):
         super().__init__(text, icon, on_click)
         self.style = ButtonStyle(
             color="secondary",
@@ -35,7 +30,7 @@ class SecondaryBtn(__ElevatedButton):
 
 
 class TertiaryBtn(__ElevatedButton):
-    def __init__(self, text: str | None = None, icon: str | None = None, on_click=None):
+    def __init__(self, text: str, icon: str | None = None, on_click=None):
         super().__init__(text, icon, on_click)
         self.style = ButtonStyle(
             color="tertiary",
@@ -53,9 +48,7 @@ class HomeBtn(FloatingActionButton):
 
 
 class IconBtn(IconButton):
-    def __init__(
-        self, icon: str | None = None, tooltip: str | None = None, on_click: None = None
-    ):
+    def __init__(self, icon: str, tooltip: str | None = None, on_click: None = None):
         super().__init__()
         self.icon = icon
         self.icon_color = "tertiary"
