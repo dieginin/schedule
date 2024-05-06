@@ -13,7 +13,7 @@ class Main:
 
     def __init_config__(self):
         self.page.title = "SBM Schedule"
-        self.page.theme = Theme(color_scheme_seed="indigo")
+        self.page.theme = Theme(color_scheme_seed="bluegrey")
         Router(self.page)
 
     def __init_window__(self):
