@@ -15,3 +15,15 @@ class Title(Text):
                 ),
             ),
         )
+
+
+class Subtitle(Text):
+    def __init__(self, value: str | None = None):
+        super().__init__()
+        self.value = value
+        self.style = TextStyle(
+            size=45,
+            weight=FontWeight.W_100,
+            color="secondary",
+            letter_spacing=3,
+        )

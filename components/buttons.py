@@ -1,4 +1,4 @@
-from flet import ButtonStyle, ElevatedButton, colors
+from flet import ButtonStyle, ElevatedButton, FloatingActionButton
 
 
 class _DefaultButton(ElevatedButton):
@@ -42,3 +42,10 @@ class TertiaryButton(_DefaultButton):
             surface_tint_color="tertiary",
             overlay_color="tertiarycontainer",
         )
+
+
+class HomeButton(FloatingActionButton):
+    def __init__(self):
+        super().__init__()
+        self.icon = "home"
+        self.on_click = lambda e: e.page.go("/")
