@@ -45,7 +45,8 @@ class TertiaryButton(_DefaultButton):
 
 
 class HomeButton(FloatingActionButton):
-    def __init__(self):
+    def __init__(self, visible: bool | None = None):
         super().__init__()
         self.icon = "home"
         self.on_click = lambda e: e.page.go("/")
+        self.visible = visible
