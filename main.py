@@ -6,19 +6,20 @@ from services import Router
 class Main:
     def __init__(self, page: Page):
         super().__init__()
+        self.page: Page = page
 
-        self.__init_config__(page)
-        self.__init_window__(page)
+        self.__init_config__()
+        self.__init_window__()
 
-    def __init_config__(self, page):
-        page.title = "SBM Schedule"
-        page.theme = Theme(color_scheme_seed="indigo")
-        Router(page)
+    def __init_config__(self):
+        self.page.title = "SBM Schedule"
+        self.page.theme = Theme(color_scheme_seed="indigo")
+        Router(self.page)
 
-    def __init_window__(self, page):
-        page.window_height = page.window_min_height = 600
-        page.window_width = page.window_min_width = 800
-        page.window_center()
+    def __init_window__(self):
+        self.page.window_height = self.page.window_min_height = 600
+        self.page.window_width = self.page.window_min_width = 800
+        self.page.window_center()
 
 
 app(Main)

@@ -10,14 +10,16 @@ routes = {
 
 class Router:
     def __init__(self, page: Page):
-        page.on_route_change = self.on_route_change
+        self.page: Page = page
 
-        self.initial_route(page)
+        self.page.on_route_change = self.on_route_change
 
-    def initial_route(self, page):
-        page.go("/")
+        self.initial_route()
+
+    def initial_route(self):
+        self.page.go("/")
 
     def on_route_change(self, e: RouteChangeEvent):
-        e.page.views.clear()
-        e.page.views.append(routes[e.route](e.page))
-        e.page.update()
+        self.page.views.clear()
+        self.page.views.append(routes[e.route](self.page))
+        self.page.update()
