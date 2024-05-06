@@ -1,7 +1,7 @@
 from flet import ButtonStyle, ElevatedButton, FloatingActionButton, IconButton
 
 
-class _ElevatedButton(ElevatedButton):
+class __ElevatedButton(ElevatedButton):
     def __init__(
         self,
         text: str | None = None,
@@ -14,7 +14,7 @@ class _ElevatedButton(ElevatedButton):
         self.on_click = on_click
 
 
-class PrimaryBtn(_ElevatedButton):
+class PrimaryBtn(__ElevatedButton):
     def __init__(self, text: str | None = None, icon: str | None = None, on_click=None):
         super().__init__(text, icon, on_click)
         self.style = ButtonStyle(
@@ -24,7 +24,7 @@ class PrimaryBtn(_ElevatedButton):
         )
 
 
-class SecondaryBtn(_ElevatedButton):
+class SecondaryBtn(__ElevatedButton):
     def __init__(self, text: str | None = None, icon: str | None = None, on_click=None):
         super().__init__(text, icon, on_click)
         self.style = ButtonStyle(
@@ -34,7 +34,7 @@ class SecondaryBtn(_ElevatedButton):
         )
 
 
-class TertiaryBtn(_ElevatedButton):
+class TertiaryBtn(__ElevatedButton):
     def __init__(self, text: str | None = None, icon: str | None = None, on_click=None):
         super().__init__(text, icon, on_click)
         self.style = ButtonStyle(
