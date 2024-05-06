@@ -1,7 +1,7 @@
-from flet import ButtonStyle, ElevatedButton, FloatingActionButton
+from flet import ButtonStyle, ElevatedButton, FloatingActionButton, IconButton
 
 
-class _DefaultButton(ElevatedButton):
+class _ElevatedButton(ElevatedButton):
     def __init__(
         self,
         text: str | None = None,
@@ -14,7 +14,7 @@ class _DefaultButton(ElevatedButton):
         self.on_click = on_click
 
 
-class PrimaryButton(_DefaultButton):
+class PrimaryBtn(_ElevatedButton):
     def __init__(self, text: str | None = None, icon: str | None = None, on_click=None):
         super().__init__(text, icon, on_click)
         self.style = ButtonStyle(
@@ -24,7 +24,7 @@ class PrimaryButton(_DefaultButton):
         )
 
 
-class SecondaryButton(_DefaultButton):
+class SecondaryBtn(_ElevatedButton):
     def __init__(self, text: str | None = None, icon: str | None = None, on_click=None):
         super().__init__(text, icon, on_click)
         self.style = ButtonStyle(
@@ -34,7 +34,7 @@ class SecondaryButton(_DefaultButton):
         )
 
 
-class TertiaryButton(_DefaultButton):
+class TertiaryBtn(_ElevatedButton):
     def __init__(self, text: str | None = None, icon: str | None = None, on_click=None):
         super().__init__(text, icon, on_click)
         self.style = ButtonStyle(
@@ -44,9 +44,22 @@ class TertiaryButton(_DefaultButton):
         )
 
 
-class HomeButton(FloatingActionButton):
+class HomeBtn(FloatingActionButton):
     def __init__(self, visible: bool | None = None):
         super().__init__()
         self.icon = "home"
         self.on_click = lambda e: e.page.go("/")
         self.visible = visible
+
+
+class IconBtn(IconButton):
+    def __init__(
+        self, icon: str | None = None, tooltip: str | None = None, on_click: None = None
+    ):
+        super().__init__()
+        self.icon = icon
+        self.icon_color = "tertiary"
+        self.highlight_color = "tertiary,.2"
+        self.hover_color = "tertiary,.1"
+        self.tooltip = tooltip
+        self.on_click = on_click

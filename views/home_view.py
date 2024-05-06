@@ -1,12 +1,6 @@
 from flet import CrossAxisAlignment, Image, MainAxisAlignment, Page, View
 
-from components import (
-    CenteredColumn,
-    PrimaryButton,
-    SecondaryButton,
-    TertiaryButton,
-    Title,
-)
+from components import CenteredColumn, PrimaryBtn, SecondaryBtn, TertiaryBtn, Title
 
 
 class HomeView(View):
@@ -32,17 +26,17 @@ class HomeView(View):
     def __buttons(self) -> CenteredColumn:
         return CenteredColumn(
             [
-                PrimaryButton(
+                PrimaryBtn(
                     "Set Schedule",
                     icon="calendar_month_rounded",
                     on_click=lambda _: self.page.go("/set"),
                 ),
-                TertiaryButton(
+                TertiaryBtn(
                     "Export Schedule",
                     icon="download_rounded",
                     on_click=lambda _: self.page.go("/export"),
                 ),
-                SecondaryButton(
+                SecondaryBtn(
                     "Manage Store",
                     icon="settings_rounded",
                     on_click=lambda _: self.page.go("/manage"),
