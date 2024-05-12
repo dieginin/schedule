@@ -3,21 +3,13 @@ import flet as ft
 from components import CenteredRow, HomeBtn, IconBtn, Subtitle, Title
 
 
-class Header(ft.Column):
-    def __init__(self, title: str):
-        super().__init__()
-        self.controls = [
-            CenteredRow([Title(title)]),
-            ft.Divider(height=1),
-        ]
-
-
 class Section(ft.Column):
     def __init__(self, title: str, control: ft.Control, expand: bool | None = None):
         super().__init__()
         self.expand = expand
         self.controls = [
-            Header(title),
+            CenteredRow([Title(title)]),
+            ft.Divider(height=1),
             ft.Column(
                 [control],
                 expand=expand,
