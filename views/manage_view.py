@@ -1,34 +1,54 @@
-from flet import Divider, Page, View
+import flet as ft
 
-from components import CenteredColumn, CenteredRow, HomeBtn, IconBtn, Section, Subtitle
+from components import CenteredRow, HomeBtn, IconBtn, Subtitle, Title
 
 
-class ManageView(View):
-    def __init__(self, page: Page):
+class Header(ft.Column):
+    def __init__(self, title: str):
         super().__init__()
-        self.page: Page = page
+        self.controls = [
+            CenteredRow([Title(title)]),
+            ft.Divider(height=1),
+        ]
+
+
+class Section(ft.Column):
+    def __init__(self, title: str, control: ft.Control, expand: bool | None = None):
+        super().__init__()
+        self.expand = expand
+        self.controls = [
+            Header(title),
+            ft.Column(
+                [control],
+                expand=expand,
+                scroll=ft.ScrollMode.AUTO,
+            ),
+        ]
+
+
+class ManageView(ft.View):
+    def __init__(self, page: ft.Page):
+        super().__init__()
+        self.page: ft.Page = page
 
         self.route = "/manage"
 
         self.floating_action_button = HomeBtn(visible=False)
-        self.__view_controls()
+        self.__view_components()
         self.controls = [self.__store(), self.__members()]
 
-    def __view_controls(self):
-        self.name = Subtitle(f"{self.page.client_storage.get('store_initials')}")
+    def __view_components(self):
+        self.store_name = Subtitle(f"{self.page.client_storage.get('store_initials')}")
 
-    def __store(self) -> CenteredColumn:
+    def __store(self) -> Section:
         return Section(
             "Store",
-            CenteredRow(
-                [
-                    self.name,
-                    IconBtn(
-                        "edit", tooltip="Edit name"
-                    ),  # TODO crear popup/dialog para cambiar nombre de tienda
-                ]
-            ),
+            CenteredRow([self.store_name, IconBtn("edit", tooltip="Edit name")]),
         )
 
-    def __members(self) -> CenteredColumn:
-        return Section("Members")  # TODO members section
+    def __members(self) -> Section:
+        return Section(
+            "Members",
+            ft.Container(bgcolor="red", height=1500),
+            expand=True,
+        )
