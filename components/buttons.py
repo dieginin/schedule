@@ -45,7 +45,7 @@ class TertiaryBtn(__ElevatedButton):
 
 
 class ColorBtn(ft.ElevatedButton):
-    def __init__(self, value: str | None = None):
+    def __init__(self, value: str | None = None, disabled: bool = False):
         super().__init__()
         self.value = value if value else "#%06x" % random.randint(0, 0xFFFFFF)
         self.tooltip = "Set Color"
@@ -55,6 +55,7 @@ class ColorBtn(ft.ElevatedButton):
             shape=ft.RoundedRectangleBorder(radius=10), bgcolor=self.value
         )
         self.on_click = self._open_dialog
+        self.disabled = disabled
 
     def _open_dialog(self, e: ft.ControlEvent):
         self._picker = ColorPicker(self.value)
