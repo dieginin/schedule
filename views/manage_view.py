@@ -53,7 +53,7 @@ class ManageView(ft.View):
         self.member_initials = cp.Field(
             "Initials", capitalization="upper", width=80, max_length=5
         )
-        self.member_color = ft.Container(height=40, width=40, bgcolor="red")
+        self.member_color = cp.ColorBtn()
         self.members_table = DataTable()
 
     def __store(self) -> Section:
