@@ -7,7 +7,6 @@ class Field(ft.TextField):
     def __init__(
         self,
         hint_text: str | None = None,
-        value: str | None = None,
         max_length: int | None = None,
         on_submit=None,
         on_change=None,
@@ -16,7 +15,6 @@ class Field(ft.TextField):
     ):
         super().__init__()
         self.hint_text = hint_text
-        self.value = value
         self.max_length = max_length
         self.counter_text = " "
         self.on_submit = on_submit
