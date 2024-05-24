@@ -59,7 +59,14 @@ class ManageView(ft.View):
     def __store(self) -> Section:
         return Section(
             "Store",
-            cp.CenteredRow([self.store_name, cp.IconBtn("edit", tooltip="Edit name")]),
+            cp.CenteredRow(
+                [
+                    self.store_name,
+                    cp.IconBtn(
+                        "edit", tooltip="Edit name", on_click=self.__change_store
+                    ),
+                ]
+            ),
         )
 
     def __members(self) -> Section:
@@ -80,6 +87,33 @@ class ManageView(ft.View):
             ),
             expand=True,
         )
+
+    def __open_dialog(self, dialog: cp.Dialog):
+        self.page.dialog = dialog
+        dialog.open = True
+        self.page.update()
+
+    def __change_store(self, _):
+        def change_name(e: ft.ControlEvent):
+            store_name = new_name.value
+            if store_name:
+                dialog.close(e)
+                e.page.client_storage.set("store_initials", store_name)
+                self.store_name.value = store_name
+                self.store_name.update()
+            else:
+                new_name.focus()
+
+        new_name = cp.Field(
+            self.store_name.value,
+            autofocus=True,
+            capitalization="upper",
+            max_length=4,
+            on_submit=change_name,
+        )
+        dialog = cp.Dialog("Change Store", new_name, on_confirm=change_name)
+
+        self.__open_dialog(dialog)
 
     def __suggest_initials(self, e: ft.ControlEvent):
         name_splited = e.control.value.split()
