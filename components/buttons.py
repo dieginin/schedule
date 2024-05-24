@@ -48,7 +48,7 @@ class HomeBtn(FloatingActionButton):
 
 
 class IconBtn(IconButton):
-    def __init__(self, icon: str, tooltip: str | None = None, on_click: None = None):
+    def __init__(self, icon: str, tooltip: str | None = None, on_click=None):
         super().__init__()
         self.icon = icon
         self.icon_color = "tertiary"
