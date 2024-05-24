@@ -10,6 +10,7 @@ class Field(ft.TextField):
         max_length: int | None = None,
         on_submit=None,
         on_change=None,
+        autofocus: bool | None = None,
         capitalization: Literal["word", "upper"] | None = None,
         width: ft.OptionalNumber = None,
     ):
@@ -19,6 +20,7 @@ class Field(ft.TextField):
         self.counter_text = " "
         self.on_submit = on_submit
         self.on_change = on_change
+        self.autofocus = autofocus
         self.capitalization = (
             ft.TextCapitalization.CHARACTERS
             if capitalization == "upper"
@@ -27,6 +29,30 @@ class Field(ft.TextField):
         self.width = width
         self.border = ft.InputBorder.UNDERLINE
         self.text_align = ft.TextAlign.CENTER
+
+
+class Dialog(ft.AlertDialog):
+    def __init__(
+        self,
+        title: str | None = None,
+        content: ft.Control | None = None,
+        on_confirm=None,
+    ):
+        super().__init__()
+        self.title = ft.Text(title) if title else None
+        self.content = content
+        self.actions = [
+            ft.TextButton("Confirm", on_click=on_confirm),
+            ft.TextButton(
+                "Cancel",
+                on_click=self.close,
+                style=ft.ButtonStyle(color="red", overlay_color="red,.1"),
+            ),
+        ]
+
+    def close(self, e: ft.ControlEvent):
+        self.open = False
+        e.page.update()
 
 
 class CenteredColumn(ft.Column):
