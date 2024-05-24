@@ -1,6 +1,7 @@
 import flet as ft
 
 import components as cp
+from services import Database, show_snackbar
 
 
 class DataTable(ft.DataTable):
@@ -48,10 +49,17 @@ class ManageView(ft.View):
             value=f"{self.page.client_storage.get('store_initials')}"
         )
         self.member_name = cp.Field(
-            "Name", capitalization="word", on_change=self.__suggest_initials
+            "Name",
+            capitalization="word",
+            on_change=self.__suggest_initials,
+            on_submit=self.__add_member,
         )
         self.member_initials = cp.Field(
-            "Initials", capitalization="upper", width=80, max_length=5
+            "Initials",
+            capitalization="upper",
+            width=80,
+            max_length=5,
+            on_submit=self.__add_member,
         )
         self.member_color = cp.ColorBtn()
         self.members_table = DataTable()
@@ -79,7 +87,7 @@ class ManageView(ft.View):
                             self.member_name,
                             self.member_initials,
                             self.member_color,
-                            cp.PrimaryBtn("Add"),
+                            cp.PrimaryBtn("Add", on_click=self.__add_member),
                         ]
                     ),
                     self.members_table,
@@ -129,3 +137,18 @@ class ManageView(ft.View):
 
         self.member_initials.value = initials_suggested
         self.member_initials.update()
+
+    def __add_member(self, e: ft.ControlEvent):
+        name = self.member_name.value
+        initials = self.member_initials.value
+        color = self.member_color.value
+
+        if name and initials and color:
+            db = Database()
+            insert = db.insert_member(name.strip(), initials.strip(), color)
+            if "inserted" in insert:
+                show_snackbar(e.page, insert, "onprimary", "primary")
+            else:
+                show_snackbar(e.page, insert, "onerror", "error")
+
+            e.page.update()
