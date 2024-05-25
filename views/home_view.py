@@ -40,7 +40,7 @@ class HomeView(ft.View):
                 TertiaryBtn(
                     "View Schedule",
                     icon="bar_chart_rounded",
-                    on_click=lambda _: self.page.go("/export"),
+                    on_click=lambda _: self.page.go("/view"),
                     disabled=disabled,
                 ),
                 SecondaryBtn(
