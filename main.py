@@ -17,7 +17,7 @@ class Main:
         Router(self.page)
 
     def __init_window__(self):
-        self.page.window_height = self.page.window_min_height = 1100
+        self.page.window_height = self.page.window_min_height = 1000
         self.page.window_width = self.page.window_min_width = 900
         self.page.window_center()
 
