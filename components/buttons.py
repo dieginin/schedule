@@ -70,17 +70,19 @@ class TertiaryBtn(__ElevatedButton):
 
 
 class ColorBtn(ft.ElevatedButton):
-    def __init__(self, value: str | None = None, disabled: bool = False):
+    def __init__(
+        self, value: str | None = None, show_color: bool = False, callback=None
+    ):
         super().__init__()
         self.value = value if value else "#%06x" % random.randint(0, 0xFFFFFF)
-        self.tooltip = self.value if disabled else "Set Color"
+        self.tooltip = self.value if show_color else "Set Color"
         self.width = 25
         self.height = 25
         self.style = ft.ButtonStyle(
             shape=ft.RoundedRectangleBorder(radius=10), bgcolor=self.value
         )
         self.on_click = self._open_dialog
-        self.disabled = disabled
+        self.__callback = callback
 
     def generate_color(self) -> str:
         self.value = "#%06x" % random.randint(0, 0xFFFFFF)
@@ -101,6 +103,8 @@ class ColorBtn(ft.ElevatedButton):
         self.value = self._picker.color
         self.bgcolor = self._picker.color
         self._dialog.open = False
+        if self.__callback:
+            self.__callback(e, self.value)
         e.page.update()
 
 
