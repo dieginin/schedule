@@ -38,8 +38,8 @@ class HomeView(ft.View):
                     disabled=disabled,
                 ),
                 TertiaryBtn(
-                    "Export Schedule",
-                    icon="download_rounded",
+                    "View Schedule",
+                    icon="bar_chart_rounded",
                     on_click=lambda _: self.page.go("/export"),
                     disabled=disabled,
                 ),
