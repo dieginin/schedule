@@ -6,7 +6,6 @@ import components as cp
 
 
 class DataTable(ft.DataTable):
-
     def __init__(self):
         super().__init__()
         self.horizontal_lines = ft.border.BorderSide(1, "primary")
@@ -81,7 +80,9 @@ class SetView(ft.View):
     def __view_components(self):
         today = datetime.now()
         next_monday = self.__get_next_monday(today)
+        last_day = next_monday + timedelta(days=6)
         self.first_day = cp.Subtitle(next_monday.strftime("%d %B %Y"))
+        self.last_day = cp.Subtitle(last_day.strftime("%d %B %Y"))
         self.picker = ft.DatePicker(
             value=next_monday,
             date_picker_entry_mode=ft.DatePickerEntryMode.CALENDAR_ONLY,
@@ -94,6 +95,8 @@ class SetView(ft.View):
         return cp.CenteredRow(
             [
                 self.first_day,
+                cp.Subtitle(" to "),
+                self.last_day,
                 cp.IconBtn(
                     "edit",
                     tooltip="Edit date",
@@ -117,5 +120,8 @@ class SetView(ft.View):
                 self.picker.value = self.__get_next_monday(self.picker.value)
                 self.picker.pick_date()
             else:
-                self.first_day.value = self.picker.value.strftime("%d %B %Y")
+                next_monday = self.picker.value
+                last_day = next_monday + timedelta(days=6)
+                self.first_day.value = next_monday.strftime("%d %B %Y")
+                self.last_day.value = last_day.strftime("%d %B %Y")
                 self.update()
