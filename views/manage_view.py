@@ -16,6 +16,23 @@ class DataTable(ft.DataTable):
         self.columns = [
             ft.DataColumn(ft.Text(i, color="tertiary")) for i in self.column_names
         ]
+        self.update_table()
+
+    def update_table(self):
+        db = Database()
+        rows = []
+        for member in db.members:
+            rows.append(
+                ft.DataRow(
+                    [
+                        ft.DataCell(ft.Text(member.name)),
+                        ft.DataCell(ft.Text(member.initials)),
+                        ft.DataCell(cp.ColorBtn(member.color, disabled=True)),
+                        ft.DataCell(ft.Text("controls")),
+                    ]
+                )
+            )
+        self.rows = rows
 
 
 class Section(ft.Column):
@@ -145,10 +162,15 @@ class ManageView(ft.View):
 
         if name and initials and color:
             db = Database()
-            insert = db.insert_member(name.strip(), initials.strip(), color)
+            insert = db.insert_member(name.title().strip(), initials.strip(), color)
             if "inserted" in insert:
                 show_snackbar(e.page, insert, "onprimary", "primary")
+                self.members_table.update_table()
             else:
                 show_snackbar(e.page, insert, "onerror", "error")
+
+            self.member_name.value = ""
+            self.member_initials.value = ""
+            self.member_color.generate_color()
 
             e.page.update()
