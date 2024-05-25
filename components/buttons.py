@@ -7,38 +7,63 @@ from .layout import Dialog
 
 
 class __ElevatedButton(ft.ElevatedButton):
-    def __init__(self, text: str, icon: str | None = None, on_click=None):
+    def __init__(
+        self,
+        text: str,
+        icon: str | None = None,
+        on_click=None,
+        disabled: bool | None = None,
+    ):
         super().__init__()
         self.text = text
         self.icon = icon
         self.on_click = on_click
+        self.disabled = disabled
 
 
 class PrimaryBtn(__ElevatedButton):
-    def __init__(self, text: str, icon: str | None = None, on_click=None):
-        super().__init__(text, icon, on_click)
+    def __init__(
+        self,
+        text: str,
+        icon: str | None = None,
+        on_click=None,
+        disabled: bool | None = None,
+    ):
+        super().__init__(text, icon, on_click, disabled)
         self.style = ft.ButtonStyle(
-            color="primary",
+            color="grey" if disabled else "primary",
             surface_tint_color="primary",
             overlay_color="primarycontainer",
         )
 
 
 class SecondaryBtn(__ElevatedButton):
-    def __init__(self, text: str, icon: str | None = None, on_click=None):
-        super().__init__(text, icon, on_click)
+    def __init__(
+        self,
+        text: str,
+        icon: str | None = None,
+        on_click=None,
+        disabled: bool | None = None,
+    ):
+        super().__init__(text, icon, on_click, disabled)
         self.style = ft.ButtonStyle(
-            color="secondary",
+            color="grey" if disabled else "secondary",
             surface_tint_color="secondary",
             overlay_color="secondarycontainer",
         )
 
 
 class TertiaryBtn(__ElevatedButton):
-    def __init__(self, text: str, icon: str | None = None, on_click=None):
-        super().__init__(text, icon, on_click)
+    def __init__(
+        self,
+        text: str,
+        icon: str | None = None,
+        on_click=None,
+        disabled: bool | None = None,
+    ):
+        super().__init__(text, icon, on_click, disabled)
         self.style = ft.ButtonStyle(
-            color="tertiary",
+            color="grey" if disabled else "tertiary",
             surface_tint_color="tertiary",
             overlay_color="tertiarycontainer",
         )
