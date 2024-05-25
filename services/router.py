@@ -4,7 +4,7 @@ from views import *
 
 routes = {
     "/": HomeView,
-    "/export": ExportView,
+    "/view": ViewView,
     "/manage": ManageView,
     "/set": SetView,
 }
