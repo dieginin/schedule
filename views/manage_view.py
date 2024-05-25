@@ -1,6 +1,7 @@
 import flet as ft
 
 import components as cp
+from models import Member
 from services import Database, show_snackbar
 
 
@@ -9,9 +10,6 @@ class DataTable(ft.DataTable):
 
     def __init__(self):
         super().__init__()
-        self.expand = True
-        self.border_radius = 8
-        self.border = ft.border.all(2, "red")
         self.horizontal_lines = ft.border.BorderSide(1, "primary")
         self.columns = [
             ft.DataColumn(ft.Text(i, color="tertiary")) for i in self.column_names
@@ -20,19 +18,44 @@ class DataTable(ft.DataTable):
 
     def update_table(self):
         db = Database()
-        rows = []
+        self.rows.clear()
         for member in db.members:
-            rows.append(
+            self.rows.append(
                 ft.DataRow(
                     [
                         ft.DataCell(ft.Text(member.name)),
                         ft.DataCell(ft.Text(member.initials)),
                         ft.DataCell(cp.ColorBtn(member.color, disabled=True)),
-                        ft.DataCell(ft.Text("controls")),
+                        ft.DataCell(
+                            ft.Row(
+                                [
+                                    ft.IconButton("edit"),
+                                    ft.IconButton(
+                                        "delete",
+                                        on_click=self.__delete_member,
+                                        style=ft.ButtonStyle(
+                                            color="red", overlay_color="red,.1"
+                                        ),
+                                    ),
+                                ],
+                                data=member,
+                            )
+                        ),
                     ]
                 )
             )
-        self.rows = rows
+
+    def __delete_member(self, e: ft.ControlEvent):
+        member: Member = e.control.parent.data
+        delet = member.delete()
+
+        if "deleted" in delet:
+            show_snackbar(e.page, delet, "onprimary", "primary")
+            e.page.update()
+            for i, row in enumerate(self.rows):
+                if row.cells[3].content.data == member:
+                    self.rows.pop(i)
+                    self.update()
 
 
 class Section(ft.Column):
@@ -166,11 +189,11 @@ class ManageView(ft.View):
             if "inserted" in insert:
                 show_snackbar(e.page, insert, "onprimary", "primary")
                 self.members_table.update_table()
+                self.member_color.generate_color()
             else:
                 show_snackbar(e.page, insert, "onerror", "error")
 
             self.member_name.value = ""
             self.member_initials.value = ""
-            self.member_color.generate_color()
 
             e.page.update()
