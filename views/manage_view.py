@@ -47,15 +47,25 @@ class DataTable(ft.DataTable):
 
     def __delete_member(self, e: ft.ControlEvent):
         member: Member = e.control.parent.data
-        delet = member.delete()
 
-        if "deleted" in delet:
-            show_snackbar(e.page, delet, "onprimary", "primary")
-            e.page.update()
-            for i, row in enumerate(self.rows):
-                if row.cells[3].content.data == member:
-                    self.rows.pop(i)
-                    self.update()
+        def delete(e: ft.ControlEvent):
+            dialog.close(e)
+            delet = member.delete()
+
+            if "deleted" in delet:
+                show_snackbar(e.page, delet, "onprimary", "primary")
+                e.page.update()
+                for i, row in enumerate(self.rows):
+                    if row.cells[3].content.data == member:
+                        self.rows.pop(i)
+                        self.update()
+
+        dialog = cp.Dialog(
+            "Delete", ft.Text(f"Do you really want to delete\n{member.name}?"), delete
+        )
+        e.page.dialog = dialog
+        dialog.open = True
+        e.page.update()
 
 
 class Section(ft.Column):
