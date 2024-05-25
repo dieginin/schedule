@@ -23,8 +23,5 @@ class Router:
 
     def __on_route_change(self, e: RouteChangeEvent):
         self.page.views.clear()
-        if self.page.client_storage.get("store_initials"):
-            self.page.views.append(routes[e.route](self.page))
-        else:
-            self.page.views.append(routes["/manage"](self.page))
+        self.page.views.append(routes[e.route](self.page))
         self.page.update()
