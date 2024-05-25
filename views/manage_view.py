@@ -25,11 +25,25 @@ class DataTable(ft.DataTable):
                     [
                         ft.DataCell(ft.Text(member.name)),
                         ft.DataCell(ft.Text(member.initials)),
-                        ft.DataCell(cp.ColorBtn(member.color, disabled=True)),
+                        ft.DataCell(
+                            cp.ColorBtn(
+                                member.color,
+                                show_color=True,
+                                callback=self.__edit_color,
+                            ),
+                            data=member,
+                        ),
                         ft.DataCell(
                             ft.Row(
                                 [
-                                    ft.IconButton("edit"),
+                                    ft.IconButton(
+                                        "edit",
+                                        on_click=self.__edit_member,
+                                        style=ft.ButtonStyle(
+                                            color="tertiary",
+                                            overlay_color="tertiary,.1",
+                                        ),
+                                    ),
                                     ft.IconButton(
                                         "delete",
                                         on_click=self.__delete_member,
@@ -45,6 +59,58 @@ class DataTable(ft.DataTable):
                 )
             )
 
+    def __edit_color(self, e: ft.ControlEvent, member: Member, color: str):
+        if member.color != color:
+            modify = member.modify(color=color)
+
+            if "modified" in modify:
+                show_snackbar(e.page, modify, "ontertiary", "tertiary")
+                self.update_table()
+                e.page.update()
+                return True
+            else:
+                show_snackbar(e.page, modify, "onerror", "error")
+
+    def __edit_member(self, e: ft.ControlEvent):
+        member: Member = e.control.parent.data
+
+        def edit(e: ft.ControlEvent):
+            name_val = name.value.title().strip() if name.value else None
+            initials_val = initials.value.strip() if initials.value else None
+
+            if name_val or initials_val:
+                dialog.close(e)
+                modify = member.modify(name_val, initials_val)
+
+                if "modified" in modify:
+                    show_snackbar(e.page, modify, "ontertiary", "tertiary")
+                    self.update_table()
+                    e.page.update()
+                else:
+                    show_snackbar(e.page, modify, "onerror", "error")
+            else:
+                name.focus()
+
+        name = cp.Field(
+            member.name, capitalization="word", on_submit=edit, autofocus=True
+        )
+        initials = cp.Field(
+            member.initials,
+            capitalization="upper",
+            width=80,
+            max_length=5,
+            on_submit=edit,
+        )
+        body = ft.Container(
+            cp.CenteredColumn([name, initials]),
+            height=115,
+        )
+
+        dialog = cp.Dialog("Edit", body, edit)
+        e.page.dialog = dialog
+        dialog.open = True
+        e.page.update()
+
     def __delete_member(self, e: ft.ControlEvent):
         member: Member = e.control.parent.data
 
@@ -54,11 +120,8 @@ class DataTable(ft.DataTable):
 
             if "deleted" in delet:
                 show_snackbar(e.page, delet, "onprimary", "primary")
+                self.update_table()
                 e.page.update()
-                for i, row in enumerate(self.rows):
-                    if row.cells[3].content.data == member:
-                        self.rows.pop(i)
-                        self.update()
 
         dialog = cp.Dialog(
             "Delete", ft.Text(f"Do you really want to delete\n{member.name}?"), delete
