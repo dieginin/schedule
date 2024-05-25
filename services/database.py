@@ -1,10 +1,20 @@
 from tinydb import Query, TinyDB
 
+from models import Member
+
 
 class Database:
     def __init__(self):
         db = TinyDB("database.json")
         self._members = db.table("members")
+
+    @property
+    def members(self) -> list[Member]:
+        return [
+            Member(member["id"], member["name"], member["initials"], member["color"])
+            for member in self._members.all()
+            if member
+        ]
 
     def _check_existence(self, table, **kwargs) -> str | None:
         for key, value in kwargs.items():
