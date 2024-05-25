@@ -57,6 +57,11 @@ class ColorBtn(ft.ElevatedButton):
         self.on_click = self._open_dialog
         self.disabled = disabled
 
+    def generate_color(self) -> str:
+        self.value = "#%06x" % random.randint(0, 0xFFFFFF)
+        self.style = ft.ButtonStyle(bgcolor=self.value)
+        return self.value
+
     def _open_dialog(self, e: ft.ControlEvent):
         self._picker = ColorPicker(self.value)
         self._dialog = Dialog(
