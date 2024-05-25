@@ -128,3 +128,42 @@ class IconBtn(ft.IconButton):
         self.hover_color = "tertiary,.1"
         self.tooltip = tooltip
         self.on_click = on_click
+
+
+class MemberBtn(ft.ElevatedButton):
+    def __init__(self):
+        super().__init__()
+        self.on_click = self.change_member
+        self.on_long_press = self.close_day
+        self.current_member_index = -1
+        self.width = 50
+        self.height = 27
+        self.update_button_style("primary")
+
+    def update_button_style(self, color: str):
+        self.style = ft.ButtonStyle(
+            color=color,
+            surface_tint_color=color,
+            overlay_color=f"{color},.1",
+            padding=0,
+            shape=ft.RoundedRectangleBorder(radius=10),
+        )
+
+    def change_member(self, _):
+        from services import Database
+
+        members = Database().members
+        self.current_member_index = (self.current_member_index + 1) % (len(members) + 1)
+        if self.current_member_index == len(members):
+            self.text = ""
+            self.update_button_style("primary")
+        else:
+            next_member = members[self.current_member_index]
+            self.text = next_member.initials
+            self.update_button_style(members[self.current_member_index].color)
+        self.update()
+
+    def close_day(self, _):
+        self.text = "CLSD"
+        self.update_button_style("error")
+        self.update()
