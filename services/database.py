@@ -61,8 +61,8 @@ class Database:
         if color:
             self._members.update({"color": color}, doc_ids=[member.id])
             member.color = color
-        return f"[{member.initials}] {member} modified"
+        return f"[{member.initials}] {member.name} modified"
 
     def delete_member(self, member: Member) -> str:
         self._members.remove(doc_ids=[member.id])
-        return f"{member} deleted"
+        return f"{member.name} deleted"
