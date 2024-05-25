@@ -154,8 +154,8 @@ class ManageView(ft.View):
         self.route = "/manage"
 
         self.__view_components()
-        self.floating_action_button = self.home_btn
         self.padding = 0
+        self.floating_action_button = self.home_btn
         self.controls = [self.__store(), self.__members()]
 
     def __view_components(self):
