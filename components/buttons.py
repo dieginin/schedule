@@ -48,7 +48,7 @@ class ColorBtn(ft.ElevatedButton):
     def __init__(self, value: str | None = None, disabled: bool = False):
         super().__init__()
         self.value = value if value else "#%06x" % random.randint(0, 0xFFFFFF)
-        self.tooltip = "Set Color"
+        self.tooltip = self.value if disabled else "Set Color"
         self.width = 25
         self.height = 25
         self.style = ft.ButtonStyle(
