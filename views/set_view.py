@@ -1,10 +1,14 @@
-from flet import Page, View
+import flet as ft
+
+import components as cp
 
 
-class SetView(View):
-    def __init__(self, page: Page):
+class SetView(ft.View):
+    def __init__(self, page: ft.Page):
         super().__init__()
-        self.page: Page = page
+        self.page: ft.Page = page
 
         self.route = "/set"
+        self.floating_action_button = cp.HomeBtn()
+        self.padding = 0
         self.controls = []
