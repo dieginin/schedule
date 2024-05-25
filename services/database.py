@@ -39,3 +39,30 @@ class Database:
         self._members.update({"id": id}, doc_ids=[id])
 
         return f"[{initials}] {name} inserted"
+
+    def modify_member(
+        self,
+        member: Member,
+        name: str | None = None,
+        initials: str | None = None,
+        color: str | None = None,
+    ) -> str:
+        if exists := self._check_existence(
+            self._members, name=name, initials=initials, color=color
+        ):
+            return exists
+
+        if name:
+            self._members.update({"name": name}, doc_ids=[member.id])
+            member.name = name
+        if initials:
+            self._members.update({"initials": initials}, doc_ids=[member.id])
+            member.initials = initials
+        if color:
+            self._members.update({"color": color}, doc_ids=[member.id])
+            member.color = color
+        return f"[{member.initials}] {member} modified"
+
+    def delete_member(self, member: Member) -> str:
+        self._members.remove(doc_ids=[member.id])
+        return f"{member} deleted"
