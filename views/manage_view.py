@@ -80,11 +80,16 @@ class ManageView(ft.View):
 
         self.route = "/manage"
 
-        self.floating_action_button = cp.HomeBtn(visible=False)
         self.__view_components()
+        self.floating_action_button = self.home_btn
         self.controls = [self.__store(), self.__members()]
+        self.padding = 0
 
     def __view_components(self):
+        self.home_btn = cp.HomeBtn(
+            visible=len(Database().members) > 0
+            and bool(self.page.client_storage.get("store_initials"))
+        )
         self.store_name = cp.Subtitle(
             value=f"{self.page.client_storage.get('store_initials')}"
         )
@@ -136,6 +141,12 @@ class ManageView(ft.View):
             expand=True,
         )
 
+    def __check_home_btn(self):
+        self.home_btn.visible = len(Database().members) > 0 and bool(
+            self.page.client_storage.get("store_initials")
+        )
+        self.home_btn.update()
+
     def __open_dialog(self, dialog: cp.Dialog):
         self.page.dialog = dialog
         dialog.open = True
@@ -149,6 +160,7 @@ class ManageView(ft.View):
                 e.page.client_storage.set("store_initials", store_name)
                 self.store_name.value = store_name
                 self.store_name.update()
+                self.__check_home_btn()
             else:
                 new_name.focus()
 
@@ -195,5 +207,6 @@ class ManageView(ft.View):
 
             self.member_name.value = ""
             self.member_initials.value = ""
+            self.__check_home_btn()
 
             e.page.update()
