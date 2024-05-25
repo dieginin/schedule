@@ -10,11 +10,16 @@ class Database:
 
     @property
     def members(self) -> list[Member]:
-        return [
-            Member(member["id"], member["name"], member["initials"], member["color"])
-            for member in self._members.all()
-            if member
-        ]
+        return sorted(
+            [
+                Member(
+                    member["id"], member["name"], member["initials"], member["color"]
+                )
+                for member in self._members.all()
+                if member
+            ],
+            key=lambda m: m.name,
+        )
 
     def _check_existence(self, table, **kwargs) -> str | None:
         for key, value in kwargs.items():
