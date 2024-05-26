@@ -18,7 +18,7 @@ class Title(Text):
 
 
 class Subtitle(Text):
-    def __init__(self, value: str | None = None):
+    def __init__(self, value: str | None = None, data=None):
         super().__init__()
         self.value = value
         self.style = TextStyle(
@@ -27,3 +27,4 @@ class Subtitle(Text):
             color="secondary",
             letter_spacing=3,
         )
+        self.data = data
