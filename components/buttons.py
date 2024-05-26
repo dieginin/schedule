@@ -156,11 +156,13 @@ class MemberBtn(ft.ElevatedButton):
         self.current_index = (self.current_index + 1) % (len(members) + 1)
         if self.current_index == len(members):
             self.text = ""
+            self.data = ""
             self.update_button_style("primary")
         else:
             next_member = members[self.current_index]
             self.text = next_member.initials
             self.update_button_style(members[self.current_index].color)
+            self.data = next_member
         self.update()
 
     def close_day(self, _):
