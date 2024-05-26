@@ -2,8 +2,6 @@ from typing import Literal
 
 import flet as ft
 
-from .buttons import MemberBtn
-
 
 class Field(ft.TextField):
     def __init__(
@@ -96,6 +94,8 @@ class WeekTable(ft.DataTable):
 
     @staticmethod
     def __generate_rows() -> list[ft.DataRow]:
+        from .buttons import MemberBtn
+
         rows_names = [
             "07:00  \n  08:00",
             "08:00  \n  09:00",
