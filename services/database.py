@@ -7,6 +7,7 @@ class Database:
     def __init__(self):
         db = TinyDB("database.json")
         self._members = db.table("members")
+        self._schedules = db.table("schedules")
 
     @property
     def members(self) -> list[Member]:
@@ -20,6 +21,10 @@ class Database:
             ],
             key=lambda m: m.name,
         )
+
+    @property
+    def schedules(self):
+        return self._schedules.all()
 
     def _check_existence(self, table, **kwargs) -> str | None:
         for key, value in kwargs.items():
@@ -72,3 +77,12 @@ class Database:
     def delete_member(self, member: Member) -> str:
         self._members.remove(doc_ids=[member.id])
         return f"{member.name} deleted"
+
+    def insert_schedule(self, date: str, week: dict) -> str:
+        if exists := self._check_existence(self._schedules, date=date):
+            return exists
+
+        id = self._schedules.insert({"id": 0, "date": date, "week": week})
+        self._schedules.update({"id": id}, doc_ids=[id])
+
+        return f"Schedule for {date} inserted"
