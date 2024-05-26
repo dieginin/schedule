@@ -2,6 +2,8 @@ from typing import Literal
 
 import flet as ft
 
+from .buttons import MemberBtn
+
 
 class Field(ft.TextField):
     def __init__(
@@ -67,3 +69,58 @@ class CenteredRow(ft.Row):
         super().__init__()
         self.controls = controls
         self.alignment = ft.MainAxisAlignment.CENTER
+
+
+class WeekTable(ft.DataTable):
+    def __init__(self):
+        super().__init__()
+        self.horizontal_lines = ft.border.BorderSide(1, "primary")
+        self.data_row_max_height = 45
+        self.heading_row_height = 20
+        self.columns = self.__generate_columns()
+        self.rows = self.__generate_rows()
+
+    @staticmethod
+    def __generate_columns() -> list[ft.DataColumn]:
+        column_names = [
+            "Hours",
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+        ]
+        return [ft.DataColumn(ft.Text(name, color="tertiary")) for name in column_names]
+
+    @staticmethod
+    def __generate_rows() -> list[ft.DataRow]:
+        rows_names = [
+            "07:00  \n  08:00",
+            "08:00  \n  09:00",
+            "09:00  \n  10:00",
+            "10:00  \n  11:00",
+            "11:00  \n  12:00",
+            "12:00  \n  01:00",
+            "01:00  \n  02:00",
+            "02:00  \n  03:00",
+            "03:00  \n  04:00",
+            "04:00  \n  05:00",
+            "05:00  \n  06:00",
+            "06:00  \n  07:00",
+            "07:00  \n  08:00",
+            "08:00  \n  09:00",
+            "09:00  \n  10:00",
+            "10:00  \n  11:00",
+            "11:00  \n  12:00",
+        ]
+        return [
+            ft.DataRow(
+                [
+                    ft.DataCell(ft.Text(name, size=12)),
+                    *[ft.DataCell(MemberBtn()) for _ in range(7)],
+                ]
+            )
+            for name in rows_names
+        ]

@@ -7,5 +7,5 @@ from .buttons import (
     SecondaryBtn,
     TertiaryBtn,
 )
-from .layout import CenteredColumn, CenteredRow, Dialog, Field
+from .layout import CenteredColumn, CenteredRow, Dialog, Field, WeekTable
 from .text import Subtitle, Title
